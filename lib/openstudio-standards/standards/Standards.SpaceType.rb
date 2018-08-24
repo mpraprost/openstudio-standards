@@ -1,4 +1,3 @@
-
 class Standard
   # @!group SpaceType
 
@@ -15,9 +14,9 @@ class Standard
 
     # populate search hash
     search_criteria = {
-      'template' => template,
-      'building_type' => standards_building_type,
-      'space_type' => standards_space_type
+        'template' => template,
+        'building_type' => standards_building_type,
+        'space_type' => standards_space_type
     }
 
     # lookup space type properties
@@ -496,11 +495,7 @@ class Standard
     # Lights
     if set_lights
 
-      lighting_sch = space_type_properties['lighting_schedule']
-      unless lighting_sch.nil?
-        default_sch_set.setLightingSchedule(model_add_schedule(space_type.model, lighting_sch))
-        OpenStudio.logFree(OpenStudio::Info, 'openstudio.standards.SpaceType', "#{space_type.name} set lighting schedule to #{lighting_sch}.")
-      end
+      apply_lighting_schedule(space_type, space_type_properties, default_sch_set)
 
     end
 
@@ -560,6 +555,15 @@ class Standard
     return true
   end
 
+  def apply_lighting_schedule(space_type, space_type_properties, default_sch_set)
+    lighting_sch = space_type_properties['lighting_schedule']
+    unless lighting_sch.nil?
+      default_sch_set.setLightingSchedule(model_add_schedule(space_type.model, lighting_sch))
+      OpenStudio.logFree(OpenStudio::Info, 'openstudio.standards.SpaceType', "#{space_type.name} set lighting schedule to #{lighting_sch}.")
+    end
+  end
+
+
   # Returns standards data for selected construction
   #
   # @param intended_surface_type [string] the type of surface
@@ -579,11 +583,11 @@ class Standard
 
     # populate search hash
     search_criteria = {
-      'template' => template,
-      'climate_zone_set' => climate_zone_set,
-      'intended_surface_type' => intended_surface_type,
-      'standards_construction_type' => standards_construction_type,
-      'building_category' => building_category
+        'template' => template,
+        'climate_zone_set' => climate_zone_set,
+        'intended_surface_type' => intended_surface_type,
+        'standards_construction_type' => standards_construction_type,
+        'building_category' => building_category
     }
 
     # switch to use this but update test in standards and measures to load this outside of the method
