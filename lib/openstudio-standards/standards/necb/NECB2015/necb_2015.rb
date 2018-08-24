@@ -85,7 +85,13 @@ class NECB2015 < NECB2011
     # Remove duplicate materials and constructions
     # Note For NECB2015 This is the 2nd time this method is bieng run.
     # First time it ran in the super() within model_apply_standard() method
-    model  = BTAP::FileIO::remove_duplicate_materials_and_constructions(model)
+    model = BTAP::FileIO::remove_duplicate_materials_and_constructions(model)
     return model
   end
+
+  #occupancy sensor control applied using lighting schedule, see apply_lighting_schedule method
+  def set_occ_sensor_spacetypes(model, space_type_map)
+    return true
+  end
+
 end
